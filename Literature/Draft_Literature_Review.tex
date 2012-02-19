@@ -1,0 +1,41 @@
+\documentclass{article}
+
+\input{../Source/LaTeX/Common.tex}
+
+\title{Network Security Project\\ Draft Literature Review}
+
+\begin{document}
+\maketitle
+
+\section{Draft Literature Review}
+
+\subsection{Overview}
+
+\blockquote{Serpent is a symmetric key block cipher which was a finalist in the Advanced Encryption Standard (AES) contest, where it came second to Rijndael. Serpent was designed by Ross Anderson, Eli Biham, and Lars Knudsen.}\cite{wikipedia}
+
+\subsection{Design Methodology}
+
+A significant portion of Serpent was based on the extensive cryptanalysis completed on the Data Encryption Standard (DES). \cite{submission} This allows the authors to design a a stronger cipher while still maintaining the known advantages of DES. The original submission to AES actually used the same S-Boxes as DES\cite[5]{submission}, but later it was determined that suitably complex S-Boxes could be created using a deterministic method (thereby avoiding the potential for built-in trapdoors). \cite[7, 15]{submission}
+
+\subsection{Parallelism}
+
+By using a bit-slice implementation, Serpent can be efficiently implemented on a \enquote{processor with two 32-bit integer ALUs (such as the popular Intel MMX series)}.\cite[2]{submission} From Wikipedia: \enquote{Serpent was designed so that all operations can be executed in parallel, using 32 1-bit slices. This maximizes [the] parallelism [of the algorithm]}\cite{wikipedia}
+
+\subsection{Conservative Approach}
+
+Using the cryptanalysis of DES as a basis the authors of Serpent took a conservative approach to the design of the algorithm.\cite{wikipedia} Since it was expected (and we now know) that AES would be employed for many years after the competition, Serpent has been designed with an eye to the future. The authors believe that as few as 16 rounds of permutation-substitution would be secure for many years, however the design proposes 32 rounds as a precaution against feature advances in cryptanalysis. \cite[4, 8]{submission}
+
+\subsection{Reference Implementations}
+
+During the AES selection process, several references implementations were developed in several languages: Specifically, Ada, Assembler, C, Java, and Python.\cite[16]{submission} Several of these implementations are available for download from the Serpent Homepage \cite{homepage}.
+
+\subsection{Patents and Licensing}
+
+The authors of Serpent have applied for a U.K. Patent (Application 9722798.9. Filed October 30, 1997) \cite{scan} but to quote the Serpent Homepage:
+\blockquote{Serpent is now completely in the public domain, and we impose no restrictions on its use. This was announced on the 21st August at the First AES Candidate Conference. The optimised implementations in the submission package are now under the General Public License (GPL), although some comments in the code still say otherwise.}\cite{homepage}
+
+\nocite{referenceimplementation}
+\nocite{case}
+
+\printbibliography
+\end{document}

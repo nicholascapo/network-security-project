@@ -1,0 +1,19 @@
+\documentclass{article}
+
+\input{../Source/LaTeX/Common.tex}
+
+\title{Network Security Project\\Draft Problem Statement and Proposed Solution}
+
+\begin{document}
+\maketitle
+
+\section{Problem Statement}
+
+According to and \cite{wikipedia}: \enquote{Serpent was designed so that all operations can be executed in parallel, using 32 1-bit slices. This maximizes [the] parallelism [of the algorithm]}. However, the context of these (and other) statements seem to imply that it would only be efficient to parallelize Serpent in hardware (or very close to hardware, e.g. Assembly). But the efficiency gains of a parallelized implementation in software are not addressed.
+
+\section{Proposed Solution}
+
+Construct a cipher-text compatible implementation of the Serpent Algorithm in both C and Python. Each implementation shall be capable of encryption and decryption using a single thread\footnote{\texttt{pThread} in the case of C, and the \texttt{multiprocessing} module in the case of Python (see the note at \url{http://docs.python.org/library/threading.html} for why \texttt{multiprocessing} was chosen over \texttt{threading})} as well as 32 parallel threads as described in \cite{submission}. These implementations can then be compared for speed and efficiency, in threaded and non-threaded modes, and the results analyzed to determine if there is any advantage to implementing software parallelism in Serpent.
+
+\printbibliography
+\end{document}

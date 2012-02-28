@@ -1,0 +1,34 @@
+\section{Requirements Analysis}
+
+\subsection{Language and Binary}
+\begin{enumerate}
+\item The program shall be referred to herein as \emph{Viper}
+\item One version of the program shall be produced using the C language
+\item One version of the program shall be produced using the Python language
+\item Each version shall be compiled into two binaries (\texttt{viper} and \texttt{viper-test}) with the following usage:
+	\begin{enumerate}
+	\item \texttt{viper [ -h | --help ]  [ -e | -d | --encrypt | --decrypt ] [ -t | --threads NUM ] [ -k | --key KEY ]}
+	\item \texttt{viper-test [ -h | --help ]  [ -e | -d | --encrypt | --decrypt ] [ -k | --key KEY ] input$\_$block}
+	\end{enumerate}
+\end{enumerate}
+
+\subsection{Input/Output}
+\begin{enumerate}
+\item \texttt{viper} shall expect input on \texttt{stdin}, and generate output on \texttt{stdout}
+\item \texttt{viper-test} shall expect a single block of 32 hexadecimal values as the last argument on the command line
+\item \texttt{viper} shall be the general case of \texttt{viper-test} and shall encrypt or decrypt until reaching end--of-input
+\item All errors and help texts shall be written to \texttt{stderr}
+\end{enumerate}
+
+\subsection{Compatibility}
+\begin{enumerate}
+\item Each version of \texttt{viper} shall be ciphertext compatible with the reference implementation of \texttt{Serpent}
+\end{enumerate}
+
+\subsection{Threading}
+\begin{enumerate}
+\item Each version of \texttt{viper} shall implement a single threaded \textbf{TODO}
+\item Each version of \texttt{viper} shall implement a multi-threaded \textbf{TODO}
+\end{enumerate}
+
+

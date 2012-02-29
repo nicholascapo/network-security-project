@@ -57,20 +57,23 @@ def decrypt():
 	pass
 
 #########################################
-def initialPermutation():
-	pass
-
-#########################################
-def finalPermutation():
-	pass
+def permutation(data, permutation_table):
+	result = ''
+	for b in permutation_table:
+		result += data[b]
+	return result
 
 #########################################
 def keystream():
 	pass
 	
 #########################################
-def sBox():
-	pass
+# maybe this should be combined with permutation()
+def sBox(data, sBox):
+	result = ''
+	for b in sBox:
+		result += data[b]
+	return result
 
 #########################################
 def linearTransform():

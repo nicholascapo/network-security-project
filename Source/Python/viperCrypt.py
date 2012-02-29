@@ -3,17 +3,19 @@
 from __future__ import print_function
 
 sbox_file = '../sboxes.text'
+permutations_file = '../permutations.text'
 sboxes = {}
+permutations = []
+inversePermutations = []
 
 #########################################
 def parse_S_Boxes():
 	for line in open(sbox_file, 'r'):
-		if not line: continue
 		name = line.split(':')[0]
 		values = [int(v) for v in line.split(':')[1].split()]
 		sboxes[name] = values
 		
-	# assertioans to check that we got the right data
+	# assertions to check that we got the right data
 	# not secure, just a sanity check
 	assert sboxes['S0'][7]  == 11
 	assert sboxes['S1'][3]  ==  7
@@ -28,8 +30,24 @@ def parse_S_Boxes():
 
 #########################################
 def parse_Permutations():
-	pass
+	input_file = open(permutations_file, 'r')
+	data = input_file.read()
+	input_file.close()
+	
+	data = data.replace('\n', '')
+	
+	permutations = [int(v) for v in data.split('//')[2].split(',')]
+	inversePermutations = [int(v) for v in data.split('//')[4].split(',')]
 
+	# assertions to check that we got the right data
+	# not secure, just a sanity check
+	assert len(permutations) == 128
+	assert permutations[14] == 67
+	assert permutations[-21] == 122
+	assert len(inversePermutations) == 128
+	assert inversePermutations[25] == 100
+	assert inversePermutations[-9] == 95
+	
 #########################################
 def encrypt():
 	pass

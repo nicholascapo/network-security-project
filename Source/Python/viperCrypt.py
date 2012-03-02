@@ -86,8 +86,18 @@ def sBox(data, sBox):
 	return result
 
 #########################################
-def linearTransform(a, b, c, d):
-	pass
+def linearTransform(X0, X1, X2, X3):
+	X0 = rotate(X0, 13)
+	X2 = rotate(X2, 3)
+	X1 = X1 ^ X0 ^ X2
+	X3 = X3 ^ X2 ^ (X0 << 3)
+	X1 = rotate(X1, 1)
+	X3 = rotate(X3, 7)
+	X0 = X0 ^ X1 ^ X3
+	X2 = X2 ^ X3 ^ (X1 << 7)
+	X0 = rotate(X0, 5)
+	X2 = rotate(X2, 22)
+	return X0, X1, X2, X3
 	
 
 #########################################

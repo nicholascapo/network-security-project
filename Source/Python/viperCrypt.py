@@ -107,6 +107,10 @@ def linearTransform(X0, X1, X2, X3):
 	
 
 #########################################
+def rotate(data, amount):
+	 return ((data << amount) | (data >> (32 - amount))
+
+#########################################
 def do_round(data, subkey, sbox):
 	result = ''
 	intermidiate = ''

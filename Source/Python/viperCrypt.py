@@ -3,10 +3,7 @@
 from __future__ import print_function
 
 sbox_file = '../sboxes.text'
-permutations_file = '../permutations.text'
 sboxes = {}
-permutations = []
-inversePermutations = []
 ROUND_COUNT = 32
 
 #########################################
@@ -30,26 +27,6 @@ def parse_S_Boxes():
 		assert len(sboxes[l]) == 16
 
 #########################################
-def parse_Permutations():
-	input_file = open(permutations_file, 'r')
-	data = input_file.read()
-	input_file.close()
-	
-	data = data.replace('\n', '')
-	
-	permutations = [int(v) for v in data.split('//')[2].split(',')]
-	inversePermutations = [int(v) for v in data.split('//')[4].split(',')]
-
-	# assertions to check that we got the right data
-	# not secure, just a sanity check
-	assert len(permutations) == 128
-	assert permutations[14] == 67
-	assert permutations[-21] == 122
-	assert len(inversePermutations) == 128
-	assert inversePermutations[25] == 100
-	assert inversePermutations[-9] == 95
-	
-#########################################
 def encrypt():
 	b = '' # intermediate value
 	b.number = 0
@@ -65,13 +42,6 @@ def encrypt():
 #########################################
 def decrypt():
 	pass
-
-#########################################
-def permutation(data, permutation_table):
-	result = ''
-	for b in permutation_table:
-		result += data[b]
-	return result
 
 #########################################
 def keystream():

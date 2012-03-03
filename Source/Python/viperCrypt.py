@@ -76,6 +76,12 @@ def permutation(data, permutation_table):
 #########################################
 def keystream():
 	pass
+
+#########################################
+def pad_key(key):
+	# short keys with less than 256 bits are mapped to full-length keys of 256 bits
+	# by appending one “1” bit to the MSB end, followed by as many “0” bits as
+	# required to make up 256 bits
 	
 #########################################
 # maybe this should be combined with permutation()

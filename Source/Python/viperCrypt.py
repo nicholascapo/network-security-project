@@ -44,8 +44,20 @@ def decrypt():
 	pass
 
 #########################################
-def keystream():
-	pass
+def keystream(userKey):
+	PHI = 0x9e3779b9
+	paddedUserKey = pad_key(userKey)
+	tempsubkeys = paddedUserKey[::32] # 8 32-bit words
+	w = []
+
+	for i, v in enumerate(tempsubkeys):
+		w[i] = rotate((w[i] - 8  ^ wi - 5 ^ wi - 3 ^ w[i] - 1 ^ PHI ^ i), 11)
+	
+	{k0 , k1 , k2 , k3 } := S3 (w0 , w1 , w2 , w3 )
+
+	
+	subkeys = [k for k in w[::4]]
+	
 
 #########################################
 def pad_key(key):

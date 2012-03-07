@@ -12,8 +12,6 @@ def encrypt():
 	for i in xrange(ROUND_COUNT - 1):
 		b = do_round(b)
 		b.number += 1
-	
-	# need last round change instead of doing linear transformation
 
 	assert b.number == 31
 	return b
@@ -25,18 +23,53 @@ def decrypt():
 #########################################
 def keystream(userKey):
 	PHI = 0x9e3779b9
+	k = [None]*132 # initialized to have 132 spaces
+	result = [None]*32 # initialized to have 32 spaces
+
+	# We first pad the user supplied key to 256 bits, if necessary,
+	# as described in section 2.
 	paddedUserKey = pad_key(userKey)
-	tempsubkeys = paddedUserKey[::32] # 8 32-bit words
-	w = []
 
-	for i, v in enumerate(tempsubkeys):
-		w[i] = rotate((w[i] - 8  ^ wi - 5 ^ wi - 3 ^ w[i] - 1 ^ PHI ^ i), 11)
-	
-	#{k0 , k1 , k2 , k3 } := S3 (w0 , w1 , w2 , w3 )
+	# We write the key K as eight 32-bit words
+	w = paddedUserKey[::32] # 8 32-bit words
 
+	# and expand these to an intermediate key (which we call prekey) 
+	# w0 , . . . , w131 by the following affine recurrence:
+	# wi := (wi−8 ^ wi−5 ^ wi−3 ^ wi−1 ^ PHI ^ i) <<< 11
+
+	for index, value in enumerate(w):
+		w[index] = rotate((w[index-8] ^ w[index-5] ^ w[index-3] ^ w[index-1] ^ PHI ^ index), 11)
+
+	# The round keys are now calculated from the prekeys using the S-boxes,
+	# again in bitslice mode. We use the S-boxes to transform the prekeys
+	# wi into words ki of round key in the following way:
+	# 
+	# {k0 , k1 , k2 , k3 } := S3 (w0 , w1 , w2 , w3 )
+	# {k4 , k5 , k6 , k7 } := S2 (w4 , w5 , w6 , w7 )
+	# {k8 , k9 , k10 , k11 } := S1 (w8 , w9 , w10 , w11 )
+	# {k12 , k13 , k14 , k15 } := S0 (w12 , w13 , w14 , w15 )
+	# {k16 , k17 , k18 , k19 } := S7 (w16 , w17 , w18 , w19 )
+	# ...
+	# {k124 , k125 , k126 , k127 } := S4 (w124 , w125 , w126 , w127 )
+	# {k128 , k129 , k130 , k131 } := S3 (w128 , w129 , w130 , w131 )
+
+	# subfunction for using correct sbox in the prekey calculation
+	def prekeySBoxIndex():
+		for i in xrange(3, -33, -1):
+			yield i
+
+	for i in xrange(0, 131, 4):
+		k[i+0], k[i+1], k[i+2], k[i+3] = 
+		sbox.prekeyTransform(prekeySBoxIndex(), w[i+0], w[i+1], w[i+2], w[i+3])
+
+	# We then renumber the 32-bit values kj as 128-bit subkeys Ki 
+	# (for i in {0, . . . ,r}) as follows:
+	# Ki := {k4i , k4i+1 , k4i+2 , k4i+3 }
 	
-	subkeys = [k for k in w[::4]]
+	for i in xrange(32):
+		result[i] = [k[4*i+0], k[4*i+1], k[4*i+2], k[4*i+3]]
 	
+	return result
 
 #########################################
 def pad_key(key):

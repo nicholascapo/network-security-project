@@ -32,7 +32,7 @@ def keystream(userKey):
 	for i, v in enumerate(tempsubkeys):
 		w[i] = rotate((w[i] - 8  ^ wi - 5 ^ wi - 3 ^ w[i] - 1 ^ PHI ^ i), 11)
 	
-	{k0 , k1 , k2 , k3 } := S3 (w0 , w1 , w2 , w3 )
+	#{k0 , k1 , k2 , k3 } := S3 (w0 , w1 , w2 , w3 )
 
 	
 	subkeys = [k for k in w[::4]]
@@ -40,8 +40,9 @@ def keystream(userKey):
 
 #########################################
 def pad_key(key):
+	pass
 	# short keys with less than 256 bits are mapped to full-length keys of 256 bits
-	# by appending one “1” bit to the MSB end, followed by as many “0” bits as
+	# by appending one "1" bit to the MSB end, followed by as many "0" bits as
 	# required to make up 256 bits
 	
 #########################################
@@ -61,13 +62,13 @@ def linearTransform(X0, X1, X2, X3):
 
 #########################################
 def rotate(data, amount):
-	 return ((data << amount) | (data >> (32 - amount))
+	 return ((data << amount) | (data >> (32 - amount)))
 
 #########################################
 def do_round(data, subkey, sbox):
 	result = ''
 	intermidiate = ''
-	# 1. Key Mixing: At each round, a 128-bit subkey Ki is exclusive or’ed
+	# 1. Key Mixing: At each round, a 128-bit subkey Ki is exclusive or'ed
 	# with the current intermediate data Bi
 	
 	assert len(data) == len(subkey)
@@ -96,6 +97,5 @@ def do_round(data, subkey, sbox):
 	result = a + b + c + d
 	
 	return result
-	
 	
 ## EOF ##

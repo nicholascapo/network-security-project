@@ -6,22 +6,31 @@ import sbox
 ROUND_COUNT = 32
 
 #########################################
-def encrypt():
+def crypt(data, userkey, encryptionFlag):
+	# Decryption is different from encryption in that
+	# the inverse of the S-boxes must be used
+	# in the reverse order, as well as
+	# the inverse linear transformation [I dont think this is necessary] and
+	# reverse order of the subkeys.
+
+	if encryptionFlag:
+		subkeyList = keystream(userKey, encryptionFlag)
+		sBoxes = sbox.SBox
+	else:
+		subkeyList = keystream(userKey, encryptionFlag).reverse()
+		sBoxes = sbox.SBoxInverse
+
 	b = '' # intermediate value
 	b.number = 0
-	for i in xrange(ROUND_COUNT - 1):
-		b = do_round(b)
+	for i in xrange(ROUND_COUNT):
+		b = do_round(b, subkeyList[i], sBoxes[i % 8])
 		b.number += 1
 
 	assert b.number == 31
 	return b
 
 #########################################
-def decrypt():
-	pass
-
-#########################################
-def keystream(userKey):
+def keystream(userKey, encryptionFlag):
 	PHI = 0x9e3779b9
 	k = [None]*132 # initialized to have 132 spaces
 	result = [None]*32 # initialized to have 32 spaces
@@ -53,14 +62,9 @@ def keystream(userKey):
 	# {k124 , k125 , k126 , k127 } := S4 (w124 , w125 , w126 , w127 )
 	# {k128 , k129 , k130 , k131 } := S3 (w128 , w129 , w130 , w131 )
 
-	# subfunction for using correct sbox in the prekey calculation
-	def prekeySBoxIndex():
-		for i in xrange(3, -33, -1):
-			yield i
-
 	for i in xrange(0, 131, 4):
 		k[i+0], k[i+1], k[i+2], k[i+3] = 
-		sbox.prekeyTransform(prekeySBoxIndex(), w[i+0], w[i+1], w[i+2], w[i+3])
+		sbox.prekeyTransform(prekeySBoxIndex(encryptionFlag), w[i+0], w[i+1], w[i+2], w[i+3])
 
 	# We then renumber the 32-bit values kj as 128-bit subkeys Ki 
 	# (for i in {0, . . . ,r}) as follows:
@@ -70,6 +74,19 @@ def keystream(userKey):
 		result[i] = [k[4*i+0], k[4*i+1], k[4*i+2], k[4*i+3]]
 	
 	return result
+
+#########################################
+# function to select correct sbox in the prekey calculation
+def prekeySBoxIndex(encryptionFlag):
+	start = 3
+	if encryptionFlag:			
+		stop = -33
+		step = -1
+	else:
+		stop = 33
+		step = 1
+	for i in xrange(start, stop, step):
+		yield i
 
 #########################################
 def pad_key(key):
@@ -98,7 +115,7 @@ def rotate(data, amount):
 	 return ((data << amount) | (data >> (32 - amount)))
 
 #########################################
-def do_round(data, subkey, sbox):
+def do_round(data, subkey, sBox):
 	result = ''
 	intermidiate = ''
 	# 1. Key Mixing: At each round, a 128-bit subkey Ki is exclusive or'ed

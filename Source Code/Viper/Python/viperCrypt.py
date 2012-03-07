@@ -1,30 +1,9 @@
 #!/usr/bin/env python
 
 from __future__ import print_function
+import sbox
 
-sbox_file = '../sboxes.text'
-sboxes = {}
 ROUND_COUNT = 32
-
-#########################################
-def parse_S_Boxes():
-	for line in open(sbox_file, 'r'):
-		name = line.split(':')[0]
-		values = [int(v) for v in line.split(':')[1].split()]
-		sboxes[name] = values
-		
-	# assertions to check that we got the right data
-	# not secure, just a sanity check
-	assert sboxes['S0'][7]  == 11
-	assert sboxes['S1'][3]  ==  7
-	assert sboxes['S2'][5]  == 12
-	assert sboxes['S3'][15] == 14
-	assert sboxes['S4'][2]  ==  8
-	assert sboxes['S5'][1]  ==  5
-	assert sboxes['S6'][4]  ==  8
-	assert sboxes['S7'][13] == 3
-	for l in sboxes:
-		assert len(sboxes[l]) == 16
 
 #########################################
 def encrypt():
@@ -65,14 +44,6 @@ def pad_key(key):
 	# by appending one “1” bit to the MSB end, followed by as many “0” bits as
 	# required to make up 256 bits
 	
-#########################################
-# maybe this should be combined with permutation()
-def sBox(data, sBox):
-	result = ''
-	for b in sBox:
-		result += data[b]
-	return result
-
 #########################################
 def linearTransform(X0, X1, X2, X3):
 	X0 = rotate(X0, 13)
@@ -115,7 +86,7 @@ def do_round(data, subkey, sbox):
 	assert len(c) == 4
 	assert len(d) == 4
 
-	a, b, c, d = sbox(a, b, c, d)
+	a, b, c, d = sBox(a, b, c, d)
 	
 	# 3. Linear Transformation: The 32 bits in each of the output words are
 	# linearly mixed

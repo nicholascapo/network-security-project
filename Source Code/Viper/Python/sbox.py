@@ -7,6 +7,9 @@ def transform(data, sBox):
 		result += data[b]
 	return result
 
+def prekeyTransform(sboxIndex, a, b, c, d):
+	pass
+
 SBox = (
 	( 3, 8,15, 1,10, 6, 5,11,14,13, 4, 2, 7, 0, 9,12 ), # S0
 	(15,12, 2, 7, 9, 0, 5,10, 1,11,14, 8, 6,13, 3, 4 ), # S1

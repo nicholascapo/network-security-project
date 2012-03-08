@@ -3,32 +3,46 @@
 \subsection{Language and Binary}
 \begin{enumerate}
 \item The program shall be referred to herein as \emph{Viper}
+\item The overall design shall follow the description in \cite{submission}
 \item One version of the program shall be produced using the C language
 \item One version of the program shall be produced using the Python language
-\item Each version shall be compiled into two binaries (\texttt{viper} and \texttt{viper-test}) with the following usage:
+\end{enumerate}
+
+\subsection{Binaries}
+\begin{enumerate}
+\item Each version shall be compiled into two binaries (\texttt{viper} and \texttt{viperBlockTest}) with the following usage:
 	\begin{enumerate}
 	\item \texttt{viper [ -h | --help ]  [ -e | -d | --encrypt | --decrypt ] [ -t | --threads NUM ] [ -k | --key KEY ]}
-	\item \texttt{viper-test [ -h | --help ]  [ -e | -d | --encrypt | --decrypt ] [ -k | --key KEY ] input$\_$block}
+	\item \texttt{viperBlockTest [ -h | --help ]  [ -e | -d | --encrypt | --decrypt ] [ -k | --key KEY ] input$\_$block}
+	\end{enumerate}
+\end{enumerate}
+
+\subsection{Modules}
+\begin{enumerate}
+\item Each implementation shall be broken into at least three modules: (See \ref{threading} for details of the threading requirements)
+	\begin{enumerate}
+	\item a single threaded \texttt{main()}
+	\item a multi--threaded \texttt{main()}
+	\item a \texttt{viperCrypt} module, containing the implementation of the cipher specification itself.
 	\end{enumerate}
 \end{enumerate}
 
 \subsection{Input/Output}
 \begin{enumerate}
 \item \texttt{viper} shall expect input on \texttt{stdin}, and generate output on \texttt{stdout}
-\item \texttt{viper-test} shall expect a single block of 32 hexadecimal values as the last argument on the command line
-\item \texttt{viper} shall be the general case of \texttt{viper-test} and shall encrypt or decrypt until reaching end--of-input
+\item \texttt{viperBlockTest} shall expect a single block of 32 hexadecimal values as the last argument on the command line
+\item \texttt{viper} shall be the general case of \texttt{viperBlockTest} and shall encrypt or decrypt until reaching end--of--input
 \item All errors and help texts shall be written to \texttt{stderr}
 \end{enumerate}
 
 \subsection{Compatibility}
 \begin{enumerate}
-\item Each version of \texttt{viper} shall be ciphertext compatible with the reference implementation of \texttt{Serpent}
+\item Each version of \texttt{viper} shall be ciphertext compatible with the reference implementation of \texttt{Serpent} \cite{submission-files, referenceImplementation}
 \end{enumerate}
 
 \subsection{Threading}
+\label{threading}
 \begin{enumerate}
-\item Each version of \texttt{viper} shall implement a single threaded \textbf{TODO}
-\item Each version of \texttt{viper} shall implement a multi-threaded \textbf{TODO}
+\item Each version of \texttt{viper} shall implement a single--threaded mode
+\item Each version of \texttt{viper} shall implement a multi--threaded mode, using 32 threads
 \end{enumerate}
-
-

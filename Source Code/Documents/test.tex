@@ -1,1 +1,55 @@
-\section{Test Methodology and Results}
+\section{Test Methodology}
+
+\subsection{Unit Tests}
+\begin{enumerate}
+\item Unit tests, ad-hoc tests, and other small tests shall be used to confirm the basic operation of functions etc.
+\end{enumerate}
+
+
+\subsection{Single Block Acceptance Tests}
+\begin{enumerate}
+\item \texttt{viperBlockTest} shall be used in conjunction with the \emph{Known Answer Test}, \emph{and Monte Carlo Test} in \cite{submission-files} to confirm the correctness of the simple cipher implementation.
+\end{enumerate}
+
+\subsection{Multi--Block Acceptance Tests}
+\begin{enumerate}
+\item The single-- and multi--threaded versions of \texttt{viper} shall be used in conjunction with the reference Implementations in \cite{submission-files, referenceImplementation} to confirm the correctness of the complete cipher implementation, and that no errors have been introduced in the multi--threaded implementation.
+\end{enumerate}
+
+\subsection{Speed Tests}
+\begin{enumerate}
+\item The single-- and multi--threaded versions of \texttt{viper} shall be used to encrypt and decrypt files of various sizes and the encryption and decryption times recorded for comparison.
+\item The following Speed Tests shall be used:
+	\begin{enumerate}
+	\item A zero--filled file in the following sizes
+		\begin{enumerate}
+		\item 1B
+		\item 32B
+		\item 100B
+		\item 500B
+		\item 1KB
+		\item 32KB
+		\item 100KB
+		\item 500KB
+		\item 1MB
+		\item 32MB
+		\item 100MB
+		\item 500MB
+		\item 1GB
+		\end{enumerate}
+	\item Randomly generated files in the following sizes
+		\begin{enumerate}
+		\item 1B
+		\item 32B
+		\item 100B
+		\item 500B
+		\item 1KB
+		\item 32KB
+		\item 100KB
+		\item 500KB
+		\item 1MB
+		\item 32MB
+		\end{enumerate}
+	\end{enumerate}
+\item Each test shall be run no less than three times and the results averaged.
+\end{enumerate}

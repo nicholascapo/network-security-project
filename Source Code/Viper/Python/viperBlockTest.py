@@ -1,13 +1,17 @@
 #!/usr/bin/env python
 
 from __future__ import print_function
+import viperCrypt
 import argparse
 import sys
 
 def main():
 
 	args = parse_args()
-	print(args)
+	
+	output = viperCrypt.crypt(args.input_block, args.key, args.encrypt)
+	
+	print(output)
 
 #######################################
 def parse_args():

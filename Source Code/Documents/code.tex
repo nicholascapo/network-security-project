@@ -1,1 +1,61 @@
-\section{Code}
+\section{Implementation Results}
+
+\subsection{Environment}
+
+% The hardware and software configuration and the development environment used to implement the software
+
+The implementation was constructed and tested using the following environment on an x86 architecture:
+\begin{itemize}
+\item Ubuntu Linux (version 10.04.4 LTS)
+\item Debian Linux (version Testing/\enquote{Weezy})
+\item Python (version 2.6.5)
+\item GCC (version 4.4.3)
+\item GNU Make (version 3.81)
+\end{itemize}
+
+It is expected that the implementation will be compatible with any platform that runs Python and/or C.
+
+% (i.e., names of source code files,
+\subsection{Source Files}
+\subsubsection{C}
+\begin{itemize}
+\item \texttt{sbox.h}
+\item \texttt{viperBlockTest.c}
+\item \texttt{viperCrypt.c}
+\item \texttt{viper.c}
+\end{itemize}
+\subsubsection{Python}
+\begin{itemize}
+\item \texttt{sbox.py}
+\item \texttt{viperBlockTest.py}
+\item \texttt{viperCrypt.py}
+\item \texttt{viper.py}
+\end{itemize}
+
+% dependencies between source code files,
+\subsection{Internal Dependencies}
+Each version of \texttt{viper} depends on the \texttt{viperCrypt} module with in turn depends on the \texttt{sbox} module.
+
+% names of any software libraries used
+\subsection{External Dependencies}
+\subsubsection{C}
+Only the standard C libraries were used.
+\subsubsection{Python}
+Each of the following Python modules were imported into one or more source files:
+\begin{itemize}
+\item \texttt{argparse}
+\item \texttt{sys}
+\item \texttt{print{\textunderscore}function} \footnote{This function was imported from the \texttt{future} module to provide Python 3.x printing features}
+\end{itemize}
+
+% and a description of how the software was build (i.e., how it was compiled and linked)
+\subsection{Build Instructions}
+\subsubsection{C}
+Using the provided \texttt{Makefile} should be sufficient. However the following commands may be used as well:
+\begin{itemize}
+\item \texttt{gcc -Wall viper.c -o viper.exe}
+\item \texttt{gcc -Wall viperBlockTest.c -o viperBlockTest.exe}
+\end{itemize}
+
+\subsubsection{Python}
+No building is necessary, all required compilation will occur as a result of running \texttt{python viper.py}.

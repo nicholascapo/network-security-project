@@ -44,7 +44,7 @@ def keystream(userKey, encryptionFlag):
 
 	# and expand these to an intermediate key (which we call prekey) 
 	# w0 , . . . , w131 by the following affine recurrence:
-	# wi := (wi−8 ^ wi−5 ^ wi−3 ^ wi−1 ^ PHI ^ i) <<< 11
+	# wi := (wi-8 ^ wi-5 ^ wi-3 ^ wi-1 ^ PHI ^ i) <<< 11
 
 	for index, value in enumerate(w):
 		w[index] = rotate((w[index-8] ^ w[index-5] ^ w[index-3] ^ w[index-1] ^ PHI ^ index), 11)
@@ -63,7 +63,7 @@ def keystream(userKey, encryptionFlag):
 	# {k128 , k129 , k130 , k131 } := S3 (w128 , w129 , w130 , w131 )
 
 	for i in xrange(0, 131, 4):
-		k[i+0], k[i+1], k[i+2], k[i+3] = 
+		k[i+0], k[i+1], k[i+2], k[i+3] = \
 		sbox.prekeyTransform(prekeySBoxIndex(encryptionFlag), w[i+0], w[i+1], w[i+2], w[i+3])
 
 	# We then renumber the 32-bit values kj as 128-bit subkeys Ki 

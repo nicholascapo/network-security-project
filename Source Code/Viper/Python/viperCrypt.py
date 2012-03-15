@@ -6,7 +6,7 @@ import sbox
 ROUND_COUNT = 32
 
 #########################################
-def crypt(data, userkey, encryptionFlag):
+def crypt(data, userKey, encryptionFlag):
 	# Decryption is different from encryption in that
 	# the inverse of the S-boxes must be used
 	# in the reverse order, as well as
@@ -31,6 +31,7 @@ def crypt(data, userkey, encryptionFlag):
 
 #########################################
 def keystream(userKey, encryptionFlag):
+	userKey = list(userKey)
 	PHI = 0x9e3779b9
 	k = [None]*132 # initialized to have 132 spaces
 	result = [None]*32 # initialized to have 32 spaces
@@ -90,10 +91,10 @@ def prekeySBoxIndex(encryptionFlag):
 
 #########################################
 def pad_key(key):
-	pass
 	# short keys with less than 256 bits are mapped to full-length keys of 256 bits
 	# by appending one "1" bit to the MSB end, followed by as many "0" bits as
 	# required to make up 256 bits
+	return key
 	
 #########################################
 def linearTransform(X0, X1, X2, X3):

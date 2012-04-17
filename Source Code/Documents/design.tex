@@ -1,8 +1,8 @@
 % The design of the software (using a combination of diagrams and words)
 
-\section{Design}
+\subsection{Design}
 
-\subsection{Overview}
+\subsubsection{Overview}
 
 The software shall be designed using a primarily functional approach. The core of the algorithm shall be created in a module named \texttt{viperCrypt}. Normal interaction with the module shall occur by calling the \texttt{crypt()} function (See \nameref{cryptOverview}) and passing the user key, the plain-- or cipher--text, and a flag, which indicates whether to encrypt or decrypt. The \texttt{crypt()} function shall return the result of the encryption or decryption.
 
@@ -13,7 +13,7 @@ The software shall be designed using a primarily functional approach. The core o
 \label{cryptOverview}
 \end{figure}
 
-\subsection{Multi--Threading}
+\subsubsection{Multi--Threading}
 
 The multi--threaded version of \texttt{Viper} shall be implemented as 32 threads (See \nameref{threadedOverview}), where each thread consists of \texttt{viperCrypt.crypt()} operating on a separate block of input data.
 

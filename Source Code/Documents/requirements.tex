@@ -1,6 +1,6 @@
-\section{Requirements Analysis}
+\subsection{Requirements Analysis}
 
-\subsection{Language}
+\subsubsection{Language}
 \begin{enumerate}
 \item The program shall be referred to herein as \emph{Viper}
 \item The overall design shall follow the description in \cite{submission}
@@ -8,7 +8,7 @@
 \item One version of the program shall be produced using the Python language
 \end{enumerate}
 
-\subsection{Binaries}
+\subsubsection{Binaries}
 \begin{enumerate}
 \item Each version shall be compiled into two binaries (\texttt{viper} and \texttt{viperBlockTest}) with the following usage:
 	\begin{enumerate}
@@ -17,7 +17,7 @@
 	\end{enumerate}
 \end{enumerate}
 
-\subsection{Modules}
+\subsubsection{Modules}
 \begin{enumerate}
 \item Each implementation shall be broken into at least three modules: (See \ref{threading} for details of the threading requirements)
 	\begin{enumerate}
@@ -27,7 +27,7 @@
 	\end{enumerate}
 \end{enumerate}
 
-\subsection{Input/Output}
+\subsubsection{Input/Output}
 \begin{enumerate}
 \item \texttt{viper} shall expect input on \texttt{stdin}, and generate output on \texttt{stdout}
 \item \texttt{viperBlockTest} shall expect a single block of 32 hexadecimal values as the last argument on the command line
@@ -35,12 +35,12 @@
 \item All errors and help texts shall be written to \texttt{stderr}
 \end{enumerate}
 
-\subsection{Compatibility}
+\subsubsection{Compatibility}
 \begin{enumerate}
 \item Each version of \texttt{viper} shall be ciphertext compatible with the reference implementation of \texttt{Serpent} \cite{submission-files, referenceImplementation}
 \end{enumerate}
 
-\subsection{Threading}
+\subsubsection{Threading}
 \label{threading}
 \begin{enumerate}
 \item Each version of \texttt{viper} shall implement a single--threaded mode

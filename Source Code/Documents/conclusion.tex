@@ -1,1 +1,41 @@
 \section{Conclusion}
+
+\blockquote[\cite{Schneier:Harder}]{There is an enormous difference between a mathematical algorithm and its concrete implementation in hardware or software. Cryptographic system designs are fragile. Just because a protocol is logically secure doesn't mean it will stay secure when a designer starts defining message structures and passing bits around. Close isn't close enough; these systems must be implemented exactly, perfectly, or they will fail. ---Bruce Schneier}
+
+Implementing an encryption algorithm is hard to do correctly. No we take it back. It's just plain hard. Even more so for a \enquote{normal} developer\footnote{i.e. not a cryptographer.}. We think there are two main reasons why implementing an encryption algorithm is difficult for an average developer:
+
+\begin{enumerate}
+\item Cryptographers talk in math, and
+\item Pseudo code isn't an implementation
+\end{enumerate}
+
+\subsection{Cryptographers talk in math}
+
+Most cryptographers explain encryption in terms of math. This is understandable, first because math is the domain of provability, and second because, at its heart, Computer Science \emph{is} Math. But most developers\footnote{Specifically the author of this paper.} understand programming better than they understand math. This leaves a large gulf for miscommunication.
+
+\subsubsection{Math doesn't have types}
+\marginpar{\textbf{Is this a correct quotation?}}
+\blockquote{Computer Science is Math with Types\\ ---Dr. Jay-Evans Tevis, Ph.D., LeTourneau University}
+
+When the author of an encryption algorithm describes its operation, they frequently neglect to describe the data types of the objects they are using, leading to fundamental questions being raised by the developer: 
+\enquote{Is that an array of bytes, or a string?}
+\enquote{Is this an integer or a character?}
+\enquote{How do I perform modulo on an array of strings?}
+
+\subsection{Pseudo-code isn't an implementation}
+The second major difficulty in implementing an encryption algorithm is that the authors provide pseudo-code. The problem here is that the pseudo-code is typically incomplete or fragmented, provides no type information to the developer, and frequently contains errors or inconsistencies. In these cases the pseudo-code is actually a hindrance rather than a help to the implementation effort.
+
+The solution to this is for the cryptographer to work closely with a developer to create a reference implementation. In this way the intent of the cryptographer can be better understood.
+
+\subsection{Lessons Learned}
+
+With very few exceptions, and unless you are a well trained cryptographer, you should abide by the following three rules:
+
+\begin{description}
+\item[Don't] write your own encryption algorithm: it will be insecure
+\item[Don't] re-implement a known algorithm: your implementation will be insecure
+\item [Do] use well-tested implementations of well-tested algorithms
+\end{description}
+
+\blockquote[\cite{Schneier:Pitfalls}]{Building a secure cryptographic system is easy to do badly, and very difficult to do well. Unfortunately, most people can't tell the difference. In other areas of computer science, functionality serves to differentiate the good from the bad: a good compression algorithm will work better than a bad one; a bad compression program will look worse in feature-comparison charts. Cryptography is different. Just because an encryption program works doesn't mean it is secure. What happens with most products is that someone reads Applied Cryptography, chooses an algorithm and protocol, tests it to make sure it works, and thinks he's done. He's not. Functionality does not equal quality, and no amount of beta testing will ever reveal a security flaw. Too many products are merely "buzzword compliant"; they use secure cryptography, but they are not secure. ---Bruce Schneier}
+

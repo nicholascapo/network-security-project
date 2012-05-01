@@ -1,0 +1,120 @@
+\documentclass[style=sailor]{powerdot}
+
+\usepackage[american]{babel}
+\usepackage{csquotes}
+\usepackage[hyperref=true, backref=true]{biblatex}
+
+\bibliography{Bibliography}
+
+\title{Viper --- Network Security Project\\ \large{COSC--4553 Information Security}}
+\author{Nicholas Capo}
+\date{\today}
+
+\usepackage{listings}
+\lstset{language=C, columns=flexible, numbers=left, numberstyle=\footnotesize, frame=shadowbox}
+
+\begin{document}
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}[toc=]{Overview}
+\tableofcontents[type=1]
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}{Serpent}
+\blockquote{Serpent is a symmetric key block cipher which was a finalist in the Advanced Encryption Standard (AES) contest, where it came second to Rijndael. Serpent was designed by Ross Anderson, Eli Biham, and Lars Knudsen.}\cite{wikipedia}\pause
+\medskip
+
+By using a bit-slice implementation, Serpent can be efficiently implemented on a \enquote{processor with two 32-bit integer ALUs (such as the popular Intel MMX series)}.\cite[2]{submission}\pause
+\medskip
+
+From Wikipedia: \enquote{Serpent was designed so that all operations can be executed in parallel, using 32 1-bit slices. This maximizes [the] parallelism [of the algorithm]}\cite{wikipedia}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}{Project Proposal}
+To develop an implementation of the Serpent-1 Cipher \cite{wikipedia}\cite{homepage} in C and Python.\pause
+\medskip
+
+Both implementations of the cipher shall be constructed using threads to take advantage of the parallelism of the Serpent Algorithm. The number of threads to be used (up to a limit) shall be specified at runtime. \pause
+\medskip
+
+Each implementation shall be cipher-text compatible with each other and also the reference implementations.  \cite{referenceImplementation}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}[toc=]{An Enormous Difference}
+\pause
+\blockquote{There is an enormous difference between a mathematical algorithm and its concrete implementation in hardware or software.\pause
+\medskip
+
+Cryptographic system designs are fragile. Just because a protocol is logically secure doesn't mean it will stay secure when a designer starts defining message structures and passing bits around.\pause
+\medskip
+
+Close isn't close enough; these systems must be implemented exactly, perfectly, or they will fail.} \\---Bruce Schneier \cite{Schneier:Harder}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}{Problem 1: Cryptographers Speak Math}
+\pause
+For Example (from the Specification):\\
+
+\blockquote{
+Thus the cipher may be formally described by the following equations:
+
+$$\hat B_0 := IP(P)$$\pause
+$$B_{i+1} := R_i(\hat B_i)$$\pause
+$$C := FP(\hat B_32)$$\pause
+where
+$$R_i (X) = L(\hat S_i (X \oplus \hat K_i )) \hspace{20pt}  i = 0, \ldots , 30$$\pause
+$$ \hat R_i (X) =  \hat S_i (X \oplus \hat K_i ) \oplus \hat K_{32} \hspace{20pt} i = 31$$\pause
+
+where $S_i$ is the application of the S-box $S_{i\hspace{2pt} mod \hspace{2pt} 8}$ 32 times in parallel, and $L$ is the linear transformation.
+}\cite[3]{submission}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}{Problem 2: Pseudo-Code Has No Types}
+\pause
+\blockquote{Our cipher requires 132 32-bit words of key material. We first pad the user supplied key to 256 bits, if necessary, as described in section 2. \pause
+\medskip
+
+We then expand it to 33 128-bit subkeys $K_0$, \ldots, $K_{32}$ , in the following way. \pause
+\medskip
+
+We write the key $K$ as eight 32-bit words $w_{-8}$, \ldots, $w_{-1}$ and expand these to an intermediate key (which we call prekey) $w_0$, \ldots, $w_{131}$ by the following affine recurrence:
+$w_i := (w_{i-8} \oplus w_{i-5} \oplus w_{i-3} \oplus w_{i-1} \oplus \phi \oplus i) <<< 11$}\cite[7]{submission}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}[toc=]{The Pitfalls of Cryptography}
+\pause
+\blockquote{Building a secure cryptographic system is easy to do badly, and very difficult to do well. Unfortunately, most people can't tell the difference. \pause
+\medskip
+
+In other areas of computer science, functionality serves to differentiate the good from the bad: a good compression algorithm will work better than a bad one; a bad compression program will look worse in feature-comparison charts. Cryptography is different. Just because an encryption program works doesn't mean it is secure.\pause
+\medskip
+
+What happens with most products is that someone reads Applied Cryptography, chooses an algorithm and protocol, tests it to make sure it works, and thinks he's done. He's not. Functionality does not equal quality, and no amount of beta testing will ever reveal a security flaw. Too many products are merely "buzzword compliant"; they use secure cryptography, but they are not secure.}  \\---Bruce Schneier \cite{Schneier:Pitfalls}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}{Lessons Learned}
+\pause
+With very few exceptions, and unless you are a well trained cryptographer, you should abide by the following three rules:
+
+\begin{description}
+\item[Don't] Write your own encryption algorithm: it will be insecure \pause
+\item[Don't] Re-implement a known algorithm: it will be insecure \pause
+\item [Do\phantom{n't}] Use well-tested implementations of well-tested algorithms \pause
+\item [Do\phantom{n't}] Test for security, not just functionality\\\hspace{30pt}(maybe hire a Cryptographer or a Security Engineer)
+\end{description}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}[toc=]{References}
+\printbibliography
+\end{slide}
+
+\end{document}
